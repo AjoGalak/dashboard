@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Klasifikasi Waktu Tunggu - Input Manual</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Klasifikasi Waktu Tunggu - Input Manual</h1>
+    </div>
+    <div class="container">
+        <h2>Input Data Testing</h2>
+        <form id="manualForm">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="nim">NIM:</label>
+            <input type="number" step="1" id="nim" name="nim" min="0">
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" name="kelas" required><br><br>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="WANITA">WANITA</option>
+                <option value="PRIA">PRIA</option>
+            </select>
+            <label for="lama_masa_studi">Lama Masa Studi (Semester):</label>
+            <input type="number" step="1" id="lama_masa_studi" name="lama_masa_studi" min="0">
+            <label for="ipk">IPK:</label>
+            <input type="number" step="0.01" id="ipk" name="ipk" min="0" max="4" min="0">            
+            <label for="score_eprt">Score EPRT:</label>
+            <input type="number" step="1" id="score_eprt" name="score_eprt" min="0">
+            <label for="pengalaman_lomba">Pengalaman Lomba:</label>
+            <select id="pengalaman_lomba" name="pengalaman_lomba">
+                <option value="Ada">Ada</option>
+                <option value="Tidak Ada">Tidak Ada</option>
+            </select>
+            <label for="tak">TAK:</label>
+            <input type="number" step="1" id="tak" name="tak" min="0">
+            <label for="lama_waktu_mendapatkan_pekerjaan">Lama Waktu Mendapatkan Pekerjaan:</label>
+            <input type="number" step="0.01" id="lama_waktu_mendapatkan_pekerjaan" name="lama_waktu_mendapatkan_pekerjaan" min="0">
+            <div class="container-button">
+                <div>
+                    <button type="button" class="button" onclick="validateAndPredict()">Predict</button>
+                    <button type="button" class="button button-secondary" onclick="resetForm()">Reset</button>
+                </div>
+                <div>
+                    <a href="/klasifikasi2" class="button button-back">kembali</a>
+                </div>
+            </div>
+        </form>
+        <div id="accuracyResult" class="accuracy-result" style="font-weight: bold; font-size: 18px;"></div>
+        <div id="manualPredictionResult" style="display:none;">
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nama</td>
+                        <td id="resultName"></td>
+                    </tr>
+                    <tr>
+                        <td>NIM</td>
+                        <td id="resultNim"></td>
+                    </tr>
+                    <tr>
+                        <td>Kelas</td>
+                        <td id="resultKelas"></td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td id="resultGender"></td>
+                    </tr>
+                    <tr>
+                        <td>Lama Masa Studi</td>
+                        <td id="resultLamaMasaStudi"></td>
+                    </tr>
+                    <tr>
+                        <td>IPK</td>
+                        <td id="resultIpk"></td>
+                    </tr>
+                    <tr>
+                        <td>Score EPRT</td>
+                        <td id="resultScoreEprt"></td>
+                    </tr>
+                    <tr>
+                        <td>Pengalaman Lomba</td>
+                        <td id="resultPengalamanLomba"></td>
+                    </tr>
+                    <tr>
+                        <td>TAK</td>
+                        <td id="resultTak"></td>
+                    </tr>
+                    <tr>
+                        <td>Lama Waktu Mendapatkan Pekerjaan</td>
+                        <td id="resultLamaWaktuMendapatkanPekerjaan"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="predictionResult" class="prediction-result"></div>
+        </div>
+    </div>
+    <script>
+        async function validateAndPredict() {
+            const ipkInput = document.getElementById('ipk').value;
+            if (ipkInput < 0 || ipkInput > 4) {
+                alert("IPK harus berada di antara 0 dan 4.");
+                return;
+            }
+            predictManual();
+        }
+
+        async function predictManual() {
+            const data = {
+                name: document.getElementById('name').value,
+                nim: document.getElementById('nim').value,
+                kelas: document.getElementById('kelas').value,
+                gender: document.getElementById('gender').value,
+                lama_masa_studi: document.getElementById('lama_masa_studi').value,
+                ipk: document.getElementById('ipk').value,
+                score_eprt: document.getElementById('score_eprt').value,
+                pengalaman_lomba: document.getElementById('pengalaman_lomba').value,
+                tak: document.getElementById('tak').value,
+                lama_waktu_mendapatkan_pekerjaan: document.getElementById('lama_waktu_mendapatkan_pekerjaan').value
+            };
+            const response = await fetch('/predict_manual_klasifikasi2', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            const predictionText = result.prediction;
+            document.getElementById('manualPredictionResult').style.display = 'block';
+            document.getElementById('resultName').innerText = data.name;
+            document.getElementById('resultNim').innerText = data.nim;
+            document.getElementById('resultKelas').innerText = data.kelas;
+            document.getElementById('resultGender').innerText = data.gender;
+            document.getElementById('resultLamaMasaStudi').innerText = data.lama_masa_studi;
+            document.getElementById('resultIpk').innerText = data.ipk;
+            document.getElementById('resultScoreEprt').innerText = data.score_eprt;
+            document.getElementById('resultPengalamanLomba').innerText = data.pengalaman_lomba;
+            document.getElementById('resultTak').innerText = data.tak;
+            document.getElementById('resultLamaWaktuMendapatkanPekerjaan').innerText = data.lama_waktu_mendapatkan_pekerjaan;
+            document.getElementById('predictionResult').innerText = predictionText;
+            document.getElementById('predictionResult').style.backgroundColor = predictionText === 'CEPAT' ? '#d4edda' : '#f8d7da';
+
+            // Menampilkan akurasi
+            const accuracy_train = result.accuracy_train;
+            const accuracy_test = result.accuracy_test;
+            const accuracyHtml = `<p>Akurasi Data Training: ${accuracy_train}%</p><p>Akurasi Data Testing: ${accuracy_test}%</p>`;
+            document.getElementById('accuracyResult').innerHTML = accuracyHtml
+        }
+
+        function resetForm() {
+            document.getElementById('manualForm').reset();
+            document.getElementById('manualPredictionResult').style.display = 'none';
+            location.reload()
+        }
+    </script>
+</body>
+</html>

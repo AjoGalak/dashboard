@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Confusion Matrix</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Confusion Matrix</h1>
+    </div>
+    <div style="text-align: center; margin-top: 10px;">
+        <a href="/view_plot_klasifikasi2" class="button button-back">Grafik Bar Chart</a>
+        <a href="/view_heatmap" class="button button-back">Correlation Heatmap</a>
+    </div>
+    <div class="container show-prediction">
+        <div id="plotContainer" style="text-align: center; margin-top: 20px;">
+            <img id="plotImage" src="/plot_confusion_matrix" alt="Prediction Plot">
+        </div>
+        <button id="backButton" class="button" onclick="goBack()">Kembali</button>
+    </div>
+    <script>
+        function goBack() {
+            window.location.href = '/show_prediction_klasifikasi2';
+        }
+    </script>
+</body>
+</html>

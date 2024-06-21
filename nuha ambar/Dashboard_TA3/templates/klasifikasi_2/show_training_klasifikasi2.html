@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show Training Data</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Training Data</h1>
+    </div>
+    <div class="container">
+        <button id="nextButton" class="button" onclick="window.location.href='/upload_testing_klasifikasi2'">Next</button>
+        <div id="accuracyResult" style="font-weight: bold; font-size: 18px;"></div>
+        <div id="csvData2">
+            <!-- Training data will be displayed here -->
+        </div>
+    </div>
+</body>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/get_training_data2')
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('csvData2').innerHTML = `<p>${data.error}</p>`;
+                } else {
+                    let html = '<table>';
+                    html += '<tr>';
+                    for (let key in data.data[0]) {
+                        html += `<th>${key}</th>`;
+                    }
+                    html += '</tr>';
+                    data.data.forEach(row => {
+                        html += '<tr>';
+                        for (let key in row) {
+                            html += `<td>${row[key]}</td>`;
+                        }
+                        html += '</tr>';
+                    });
+                    html += '</table>';
+                    document.getElementById('csvData2').innerHTML = html;
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching training data:', error);
+                document.getElementById('csvData2').innerHTML = '<p>Error fetching training data</p>';
+            });
+            fetch('/show_accuracy_klasifikasi2')
+                .then(response => response.json())
+                .then(data => {
+                    if (!data.error) {
+                        const accuracyHtml = `<p>Akurasi Data Training: ${data.accuracy_train}</p>`;
+                        document.getElementById('accuracyResult').innerHTML = accuracyHtml;
+                    } else {
+                        document.getElementById('accuracyResult').innerHTML = `<p>${data.error}</p>`;
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching accuracy data:', error);
+                    document.getElementById('accuracyResult').innerHTML = '<p>Error fetching accuracy data</p>';
+                });
+    });
+</script>
+</html>

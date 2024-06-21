@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Grafik Bar Chart</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Grafik Bar Chart</h1>
+    </div>
+    <div style="text-align: center; margin-top: 10px;">
+        <a href="/view_confusion_matrix" class="button">Confusion Matrix</a>
+        <a href="/view_heatmap" class="button">Correlation Heatmap</a>
+    </div>
+    <div class="container show-prediction">
+        <div style="text-align: center; margin-top: 10px;">
+            <label for="filter">Filter:</label>
+            <select id="filter" onchange="updatePlot()">
+                <option value="all">All</option>
+                <option value="cepat">CEPAT</option>
+                <option value="lambat">LAMBAT</option>
+            </select>
+        </div>
+        <div id="plotContainer" style="text-align: center; margin-top: 20px;">
+            <img id="plotImage" src="/plot_predictions_klasifikasi2?filter=all" alt="Prediction Plot">
+        </div>
+        <button id="backButton" class="button" onclick="goBack()">Kembali</button>
+    </div>
+    <script>
+        function goBack() {
+            window.location.href = '/show_prediction_klasifikasi2';
+        }
+
+        function updatePlot() {
+            const filter = document.getElementById('filter').value;
+            const plotImage = document.getElementById('plotImage');
+            plotImage.src = `/plot_predictions_klasifikasi2?filter=${filter}`;
+        }
+    </script>
+</body>
+</html>

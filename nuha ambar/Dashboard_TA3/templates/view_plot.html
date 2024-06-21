@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediction Plot</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Prediction Plot</h1>
+    </div>
+    <div class="container show-prediction">
+        <div style="text-align: center; margin-top: 10px;">
+            <label for="filter">Filter:</label>
+            <select id="filter" onchange="updatePlot()">
+                <option value="all">All</option>
+                <option value="on_time">On Time</option>
+                <option value="late">Late</option>
+            </select>
+        </div>
+        <div id="plotContainer" style="text-align: center; margin-top: 20px;">
+            <img id="plotImage" src="/plot_predictions?filter=all" alt="Prediction Plot">
+        </div>
+        <button id="backButton" class="button" onclick="goBack()">Kembali</button>
+    </div>
+    <script>
+        function goBack() {
+            window.location.href = '/show_prediction';
+        }
+
+        function updatePlot() {
+            const filter = document.getElementById('filter').value;
+            const plotImage = document.getElementById('plotImage');
+            plotImage.src = `/plot_predictions?filter=${filter}`;
+        }
+    </script>
+</body>
+</html>

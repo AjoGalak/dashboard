@@ -1,0 +1,170 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+/* Header */
+.header {
+    background-color: #056508;
+    color: white;
+    text-align: center;
+    padding: 1em 0;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* Container */
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+}
+
+.container h2 {
+    background-color: #046b08;
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.container label {
+    display: block;
+    margin: 15px 0 5px;
+    font-weight: bold;
+}
+
+.container input, .container select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.file-upload{
+    width: 97%;
+    max-width: 2900px;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin: auto;
+}
+
+/* Buttons */
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px 0;
+    font-size: 16px;
+    color: white;
+    background-color: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button:hover {
+    background-color: #218838;
+}
+
+.button-secondary {
+    background-color: #95a922;
+    color: white;
+}
+
+.button-secondary:hover {
+    background-color: #ab8921;
+}
+
+/* Result Message */
+#manualPredictionResult {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #2a8148;
+    color: #000000;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#ipsPlot {
+    margin-top: 20px;
+    text-align: center;
+    display: flex;
+}
+
+
+/* Table Styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 8px 12px;
+    border: 1px solid #499e5c;
+}
+
+th {
+    background-color: #327902;
+    color: white;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+/* Prediction Status for File Upload Page */
+.show-prediction .on-time {
+    background-color: #d4edda;
+}
+
+.show-prediction .late {
+    background-color: #f8d7da;
+}
+
+.show-prediction .cepat {
+    background-color: #d4edda;
+}
+
+.show-prediction .lambat {
+    background-color: #f8d7da;
+}
+
+/* Prediction Status for Manual Input Page */
+.manual-input .on-time {
+    background-color: #d4edda;
+}
+
+.manual-input .late {
+    background-color: #f8d7da;
+}
+
+/* Prediction Result */
+.prediction-result {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 0;
+    margin-top: 20px;
+}
+
+
+
+.container-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

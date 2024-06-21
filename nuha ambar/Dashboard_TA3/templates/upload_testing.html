@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Testing Data</title>
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Upload Testing Data</h1>
+    </div>
+    <div class="container">
+        <div>
+            <label for="file">Download Template CSV</label>
+            <a href="/download_template_klasifikasi1" class="button button-secondary">Download Template</a>
+        </div>
+        <form id="testingForm" action="/upload_testing_klasifikasi1" method="post" enctype="multipart/form-data">
+            <label for="file">Upload Testing Data</label>
+            <input type="file" id="file" name="file">
+            <br><br>
+            <div class="container-button">
+                <button type="submit" class="button">Lihat Hasil Prediksi</button>
+                <a href="/klasifikasi1" class="button button-back">kembali</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

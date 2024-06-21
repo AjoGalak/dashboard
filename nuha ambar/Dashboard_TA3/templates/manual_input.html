@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prediksi Kelulusan - Input Manual</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Klasifikasi Kelulusan</h1>
+    </div>
+    <div class="container">
+        <h2>Input Data Testing</h2>
+        <form id="manualForm">
+            <label for="name">Nama:</label>
+            <input type="text" id="name" name="name" required><br><br>
+            <label for="waldos">Wali Dosen:</label>
+            <input type="text" id="waldos" name="waldos" required><br><br>
+            <label for="kelas">Kelas:</label>
+            <input type="text" id="kelas" name="kelas" required><br><br>
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="WANITA">WANITA</option>
+                <option value="PRIA">PRIA</option>
+            </select>
+            <label for="ips1">IPS1:</label>
+            <input type="number" step="0.01" id="ips1" name="ips1" min="0" max="4">
+            <label for="ips2">IPS2:</label>
+            <input type="number" step="0.01" id="ips2" name="ips2" min="0" max="4">
+            <label for="ips3">IPS3:</label>
+            <input type="number" step="0.01" id="ips3" name="ips3" min="0" max="4">
+            <label for="ips4">IPS4:</label>
+            <input type="number" step="0.01" id="ips4" name="ips4" min="0" max="4">
+            <label for="ips5">IPS5:</label>
+            <input type="number" step="0.01" id="ips5" name="ips5" min="0" max="4">
+            <label for="ips6">IPS6:</label>
+            <input type="number" step="0.01" id="ips6" name="ips6" min="0" max="4">
+
+            <div class="container-button">
+                <div>
+                    <button type="button" class="button" onclick="validateAndPredict()">Predict</button>
+                    <button type="button" class="button" onclick="viewPlot()">View Grafik</button>
+                    <button type="button" class="button button-secondary" onclick="resetForm()">Reset</button>
+                </div>
+                <div>
+                    <a href="/klasifikasi1" class="button button-back">kembali</a>
+                </div>
+            </div>
+        </form>
+        <div id="accuracyResult" class="accuracy-result" style="font-weight: bold; font-size: 18px;"></div>
+        <div id="manualPredictionResult" style="display:none;">
+            <table id="resultTable">
+                <thead>
+                    <tr>
+                        <th>Attribute</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Nama</td>
+                        <td id="resultName"></td>
+                    </tr>
+                    <tr>
+                        <td>Kelas</td>
+                        <td id="resultKelas"></td>
+                    </tr>
+                    <tr>
+                        <td>Wali Dosen</td>
+                        <td id="resultWaldos"></td>
+                    </tr>
+                    <tr>
+                        <td>Gender</td>
+                        <td id="resultGender"></td>
+                    </tr>
+                    <tr>
+                        <td>IPS 1</td>
+                        <td id="resultIps1"></td>
+                    </tr>
+                    <tr>
+                        <td>IPS 2</td>
+                        <td id="resultIps2"></td>
+                    </tr>
+                    <tr>
+                        <td>IPS 3</td>
+                        <td id="resultIps3"></td>
+                    </tr>
+                    <tr>
+                        <td>IPS 4</td>
+                        <td id="resultIps4"></td>
+                    </tr>
+                    <tr>
+                        <td>IPS 5</td>
+                        <td id="resultIps5"></td>
+                    </tr>
+                    <tr>
+                        <td>IPS 6</td>
+                        <td id="resultIps6"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div id="predictionResult" class="prediction-result"></div>
+            <div id="ipsPlot"></div>
+        </div>
+    </div>
+    <script>
+        async function validateAndPredict() {
+    const ips1Input = document.getElementById('ips1').value;
+    const ips2Input = document.getElementById('ips2').value;
+    const ips3Input = document.getElementById('ips3').value;
+    const ips4Input = document.getElementById('ips4').value;
+    const ips5Input = document.getElementById('ips5').value;
+    const ips6Input = document.getElementById('ips6').value;
+    
+    const ipsValues = [ips1Input, ips2Input, ips3Input, ips4Input, ips5Input, ips6Input];
+
+    for (let i = 0; i < ipsValues.length; i++) {
+        if (ipsValues[i] < 0 || ipsValues[i] > 4) {
+            alert("IPS harus berada di antara 0 dan 4.");
+            return;
+        }
+    }
+
+    predictManual();
+}
+
+        async function predictManual() {
+            const data = {
+                gender: document.getElementById('gender').value,
+                name: document.getElementById('name').value,
+                kelas: document.getElementById('kelas').value,
+                waldos: document.getElementById('waldos').value,
+                ips1: document.getElementById('ips1').value,
+                ips2: document.getElementById('ips2').value,
+                ips3: document.getElementById('ips3').value,
+                ips4: document.getElementById('ips4').value,
+                ips5: document.getElementById('ips5').value,
+                ips6: document.getElementById('ips6').value
+            };
+            const response = await fetch('/predict_manual', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            const predictionText = result.prediction;
+            document.getElementById('manualPredictionResult').style.display = 'block';
+            document.getElementById('resultGender').innerText = data.gender;
+            document.getElementById('resultName').innerText = data.name;
+            document.getElementById('resultKelas').innerText = data.kelas;
+            document.getElementById('resultWaldos').innerText = data.waldos;
+            document.getElementById('resultIps1').innerText = data.ips1;
+            document.getElementById('resultIps2').innerText = data.ips2;
+            document.getElementById('resultIps3').innerText = data.ips3;
+            document.getElementById('resultIps4').innerText = data.ips4;
+            document.getElementById('resultIps5').innerText = data.ips5;
+            document.getElementById('resultIps6').innerText = data.ips6;
+            document.getElementById('predictionResult').innerText = predictionText;
+            document.getElementById('predictionResult').style.backgroundColor = predictionText === 'On Time' ? '#d4edda' : '#f8d7da';
+
+            // Menampilkan akurasi
+            const accuracy_train = result.accuracy_train;
+            const accuracy_test = result.accuracy_test;
+            const accuracyHtml = `<p>Akurasi Data Training: ${accuracy_train}%</p><p>Akurasi Data Testing: ${accuracy_test}%</p>`;
+            document.getElementById('accuracyResult').innerHTML = accuracyHtml;
+        }
+
+        function resetForm() {
+    document.getElementById('manualForm').reset();
+    document.getElementById('manualPredictionResult').style.display = 'none';
+    // Refresh the page
+    location.reload();
+}
+
+        async function viewPlot() {
+        const data = {
+            gender: document.getElementById('gender').value,
+            ips1: document.getElementById('ips1').value,
+            ips2: document.getElementById('ips2').value,
+            ips3: document.getElementById('ips3').value,
+            ips4: document.getElementById('ips4').value,
+            ips5: document.getElementById('ips5').value,
+            ips6: document.getElementById('ips6').value
+        };
+        const response = await fetch('/plot_manual_prediction', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const blob = await response.blob();
+        const imgUrl = URL.createObjectURL(blob);
+        
+        // Menampilkan gambar plot di dalam sebuah elemen <img>
+        const plotImg = document.createElement('img');
+        plotImg.src = imgUrl;
+        plotImg.alt = 'IPS Values Plot';
+        
+        // Menghapus plot sebelumnya jika ada
+        const oldPlot = document.getElementById('ipsPlot');
+        if (oldPlot) {
+            oldPlot.remove();
+        }
+        
+        // Menambahkan plot ke dalam dokumen
+        document.body.appendChild(plotImg);
+    }
+    </script>
+</body>
+</html>

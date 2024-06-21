@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Training Data</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+</head>
+<body>
+    <div class="header">
+        <h1>Upload Training Data</h1>
+    </div>
+    <div class="container">
+        <div>
+            <label for="file">Download Template CSV</label>
+            <a href="/download_template_klasifikasi2" class="button button-secondary">Download Template</a>
+        </div>
+        <form id="uploadForm" action="/upload_file_klasifikasi2" method="post" enctype="multipart/form-data">
+            <label for="file">Upload Training Data</label>
+            <input type="file" id="file" name="file">
+            <br><br>
+            <button type="submit" class="button">Start Data Training</button>
+        </form>
+    </div>
+</body>
+</html>

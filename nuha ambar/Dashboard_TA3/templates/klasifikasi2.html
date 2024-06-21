@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tes Lama Mendapatkan Pekerjaan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+          .content-auto {
+            content-visibility: auto;
+          }
+        }
+    </style>
+</head>
+<body class="bg-[#799351] text-white flex items-center justify-center min-h-screen relative">
+    <div class="container mx-auto flex flex-col lg:flex-row items-center justify-between bg-[#527853] p-8 rounded-lg">
+        <div class="content max-w-lg mb-8 lg:mb-0">
+            <h1 class="text-5xl text-center font-bold mb-4"> Klasifikasi Waktu Tunggu </h1>
+            <p class="text-lg mb-4">
+                Algoritma Naive Bayes Untuk Memprediksi Waktu Tunggu Mendapatkan Pekerjaan bagi Mahasiswa yang Sudah Lulus menyediakan layanan diagnostik mandiri untuk memperkirakan seberapa lama waktu yang dibutuhkan oleh lulusan untuk mendapatkan pekerjaan.
+            </p>
+            <div class="buttons flex flex-col space-y-4">
+                <a href="/manual_input_klasifikasi2" class="bg-white text-blue-900 px-6 py-3 rounded-md text-center">Pengisian Data Manual</a>
+                <a href="/upload_testing_klasifikasi2" class="bg-white text-blue-900 px-6 py-3 rounded-md text-center">Unggah File</a>
+                <a href="/" class="bg-yellow-200 text-[#4a5568] px-6 py-3 text-center rounded-md z-10 hover:bg-[#dcdcdc] hover:text-[#2d3748] transition duration-300">Kembali</a>
+            </div>
+        </div>
+        <div class="image-container">
+            <img src="static/img/wisuda.png"  class="w-[400px] h-auto mx-auto">
+        </div>
+    </div>
+</body>
+</html>
